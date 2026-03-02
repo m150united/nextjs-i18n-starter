@@ -2,18 +2,20 @@
 
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
-import { useManifestLanguages } from "@better-i18n/next/client";
+import { useSetLocale, useManifestLanguages } from "@better-i18n/next/client";
 import { i18n } from "../../i18n.config";
 
 export function LanguageSwitcher() {
   const locale = useLocale();
+  const setLocale = useSetLocale();
   const router = useRouter();
   const pathname = usePathname();
   const { languages, isLoading } = useManifestLanguages(i18n.config);
 
   function handleLocaleChange(newLocale: string) {
+    setLocale(newLocale);
     const newPath = pathname.replace(/^\/[^/]+/, `/${newLocale}`);
-    router.push(newPath);
+    router.replace(newPath);
   }
 
   if (isLoading) {
