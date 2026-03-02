@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Upload, Globe, Server, Monitor, ArrowRight, ExternalLink, BookOpen, Github } from "lucide-react";
 import { i18n } from "../../../../i18n.config";
 import { toOgLocale } from "@/i18n/locale-map";
@@ -26,15 +27,14 @@ interface AboutPageProps {
 export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
   const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://nextjs-i18n-starter.vercel.app";
+  const t = await getTranslations({ locale, namespace: "about" });
 
   return {
-    title: "About - How Next.js Internationalization Works with better-i18n",
-    description:
-      "Learn how better-i18n delivers translations via CDN for Next.js apps. Server-side message loading, middleware locale detection, and instant client-side switching.",
+    title: t("meta.title"),
+    description: t("meta.description"),
     openGraph: {
-      title: "About - How Next.js i18n Works | better-i18n",
-      description:
-        "CDN-powered translation architecture, server-side rendering, and instant locale switching for Next.js applications.",
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
       url: `${baseUrl}/${locale}/about`,
       siteName: "better-i18n",
       locale: toOgLocale(locale),
@@ -44,9 +44,8 @@ export async function generateMetadata({ params }: AboutPageProps): Promise<Meta
       card: "summary_large_image",
       site: "@betteri18n",
       creator: "@betteri18n",
-      title: "About - How Next.js i18n Works | better-i18n",
-      description:
-        "CDN-powered translation architecture, server-side rendering, and instant locale switching for Next.js applications.",
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
     },
   };
 }
@@ -59,52 +58,33 @@ export default async function AboutPage() {
 
 function AboutContent({ locales }: { locales: string[] }) {
   const t = useTranslations("about");
+  const nav = useTranslations("nav");
   const locale = useLocale();
 
   const stack = [
-    { name: "Next.js 15", detail: "App Router + Server Components", color: "bg-black text-white dark:bg-white dark:text-black" },
-    { name: "@better-i18n/next", detail: "CDN-powered translations", color: "bg-blue-600 text-white" },
-    { name: "next-intl", detail: "Type-safe translation hooks", color: "bg-violet-600 text-white" },
-    { name: "Tailwind CSS 4", detail: "Utility-first styling", color: "bg-cyan-500 text-white" },
-    { name: "TypeScript 5", detail: "Full type safety", color: "bg-blue-700 text-white" },
+    { name: "Next.js 15", detailKey: "stack.appRouter" as const, color: "bg-black text-white dark:bg-white dark:text-black" },
+    { name: "@better-i18n/next", detailKey: "stack.cdnTranslations" as const, color: "bg-blue-600 text-white" },
+    { name: "next-intl", detailKey: "stack.typeSafeHooks" as const, color: "bg-violet-600 text-white" },
+    { name: "Tailwind CSS 4", detailKey: "stack.utilityStyling" as const, color: "bg-cyan-500 text-white" },
+    { name: "TypeScript 5", detailKey: "stack.fullTypeSafety" as const, color: "bg-blue-700 text-white" },
   ];
 
-  const cdnSteps: { title: string; description: string; color: string; icon: LucideIcon }[] = [
-    {
-      title: "Dashboard publish",
-      description: "Translations are published from the better-i18n dashboard to Cloudflare R2 storage.",
-      color: "from-violet-500 to-purple-600",
-      icon: Upload,
-    },
-    {
-      title: "Edge CDN delivery",
-      description: "Translation bundles are served from global edge locations with sub-50ms load times.",
-      color: "from-blue-500 to-cyan-500",
-      icon: Globe,
-    },
-    {
-      title: "Server-side rendering",
-      description: "Next.js server components fetch translations at request time via getMessages() for SEO-friendly HTML.",
-      color: "from-emerald-500 to-teal-500",
-      icon: Server,
-    },
-    {
-      title: "Client hydration",
-      description: "BetterI18nProvider hydrates translations client-side with zero layout shift. useSetLocale() enables instant switching.",
-      color: "from-amber-500 to-orange-500",
-      icon: Monitor,
-    },
+  const cdnSteps: { key: string; color: string; icon: LucideIcon }[] = [
+    { key: "publish", color: "from-violet-500 to-purple-600", icon: Upload },
+    { key: "edge", color: "from-blue-500 to-cyan-500", icon: Globe },
+    { key: "ssr", color: "from-emerald-500 to-teal-500", icon: Server },
+    { key: "hydration", color: "from-amber-500 to-orange-500", icon: Monitor },
   ];
 
   const apis = [
-    { name: "createI18n()", type: "Config", purpose: "Initialize SDK with project settings" },
-    { name: "i18n.betterMiddleware()", type: "Server", purpose: "Locale detection from URL, cookie, Accept-Language" },
-    { name: "i18n.getMessages(locale)", type: "Server", purpose: "Load all translations for a locale" },
-    { name: "i18n.getLocales()", type: "Server", purpose: "Fetch available locales from CDN" },
-    { name: "BetterI18nProvider", type: "Client", purpose: "React context for translations" },
-    { name: "useTranslations(ns)", type: "Client", purpose: "Type-safe translation access" },
-    { name: "useSetLocale()", type: "Client", purpose: "Instant language switching" },
-    { name: "useManifestLanguages()", type: "Client", purpose: "Dynamic language discovery from CDN" },
+    { name: "createI18n()", type: "Config", purposeKey: "api.createI18n" as const },
+    { name: "i18n.betterMiddleware()", type: "Server", purposeKey: "api.middleware" as const },
+    { name: "i18n.getMessages(locale)", type: "Server", purposeKey: "api.getMessages" as const },
+    { name: "i18n.getLocales()", type: "Server", purposeKey: "api.getLocales" as const },
+    { name: "BetterI18nProvider", type: "Client", purposeKey: "api.provider" as const },
+    { name: "useTranslations(ns)", type: "Client", purposeKey: "api.useTranslations" as const },
+    { name: "useSetLocale()", type: "Client", purposeKey: "api.useSetLocale" as const },
+    { name: "useManifestLanguages()", type: "Client", purposeKey: "api.useManifest" as const },
   ];
 
   const typeBadgeVariant: Record<string, "default" | "secondary" | "outline"> = {
@@ -116,13 +96,13 @@ function AboutContent({ locales }: { locales: string[] }) {
   return (
     <article className="mx-auto max-w-4xl px-6 py-20">
       <BreadcrumbSchema items={[
-        { name: "Home", href: `/${locale}` },
-        { name: "About", href: `/${locale}/about` },
+        { name: nav("home"), href: `/${locale}` },
+        { name: nav("about"), href: `/${locale}/about` },
       ]} />
 
       {/* Hero Introduction */}
       <section
-        aria-label="Introduction"
+        aria-label={t("aria.introduction")}
         className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-violet-50 to-purple-50 px-8 py-12 dark:from-blue-950/40 dark:via-violet-950/40 dark:to-purple-950/40"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.08),transparent_50%)]" />
@@ -137,14 +117,14 @@ function AboutContent({ locales }: { locales: string[] }) {
             <Button asChild>
               <Link href="https://docs.better-i18n.com/frameworks/nextjs">
                 <BookOpen />
-                Read the docs
+                {t("readDocs")}
                 <ArrowRight />
               </Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="https://github.com/better-i18n">
                 <Github />
-                View on GitHub
+                {t("viewOnGithub")}
               </Link>
             </Button>
           </div>
@@ -152,7 +132,7 @@ function AboutContent({ locales }: { locales: string[] }) {
       </section>
 
       {/* Tech Stack */}
-      <section className="mt-20" aria-label="Tech Stack">
+      <section className="mt-20" aria-label={t("stack.title")}>
         <h2 className="text-2xl font-semibold">{t("stack.title")}</h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {stack.map((item) => (
@@ -166,7 +146,7 @@ function AboutContent({ locales }: { locales: string[] }) {
                     {item.name}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {item.detail}
+                    {t(item.detailKey)}
                   </p>
                 </div>
               </CardContent>
@@ -178,23 +158,19 @@ function AboutContent({ locales }: { locales: string[] }) {
       {/* CDN Architecture */}
       <section
         className="mt-20 rounded-2xl bg-gradient-to-br from-gray-50 to-slate-100 px-8 py-10 dark:from-gray-900/60 dark:to-slate-900/60"
-        aria-label="CDN Translation Architecture"
+        aria-label={t("cdnArchitecture")}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">CDN Translation Architecture</h2>
+          <h2 className="text-2xl font-semibold">{t("cdnArchitecture")}</h2>
           <Button variant="link" asChild className="gap-1">
             <Link href="https://docs.better-i18n.com/frameworks/nextjs">
-              Learn more
+              {t("learnMore")}
               <ArrowRight className="size-3" />
             </Link>
           </Button>
         </div>
         <p className="mt-4 max-w-2xl text-gray-600 dark:text-gray-400">
-          better-i18n uses a CDN-first architecture. When you publish translations in the{" "}
-          <Link href="https://dash.better-i18n.com" className="font-medium text-blue-600 underline decoration-blue-300 underline-offset-2 transition hover:text-blue-700 dark:text-blue-400 dark:decoration-blue-700 dark:hover:text-blue-300">
-            dashboard
-          </Link>
-          , they are deployed to Cloudflare&apos;s global edge network for sub-50ms delivery worldwide.
+          {t("cdnDescription")}
         </p>
 
         {/* Visual Flow Diagram */}
@@ -202,8 +178,7 @@ function AboutContent({ locales }: { locales: string[] }) {
           {cdnSteps.map((step, index) => {
             const IconComponent = step.icon;
             return (
-              <div key={step.title} className="flex items-stretch gap-4">
-                {/* Vertical line + node */}
+              <div key={step.key} className="flex items-stretch gap-4">
                 <div className="flex flex-col items-center">
                   <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${step.color} text-white shadow-lg`}>
                     <IconComponent className="size-5" />
@@ -212,14 +187,13 @@ function AboutContent({ locales }: { locales: string[] }) {
                     <div className="w-0.5 grow bg-gradient-to-b from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
                   )}
                 </div>
-                {/* Content card */}
                 <Card className="mb-6 flex-1 shadow-sm transition hover:shadow-md">
                   <CardContent>
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                      {step.title}
+                      {t(`cdn.${step.key}.title`)}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                      {step.description}
+                      {t(`cdn.${step.key}.description`)}
                     </p>
                   </CardContent>
                 </Card>
@@ -229,17 +203,17 @@ function AboutContent({ locales }: { locales: string[] }) {
         </div>
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          The SDK caches manifest data for 5 minutes and translation messages for 30 seconds by default. Cache invalidation happens automatically on publish.
+          {t("cacheNote")}
         </p>
       </section>
 
       {/* SDK APIs */}
-      <section className="mt-20" aria-label="SDK APIs">
+      <section className="mt-20" aria-label={t("sdkApis")}>
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">SDK APIs Used in This Starter</h2>
+          <h2 className="text-2xl font-semibold">{t("sdkApis")}</h2>
           <Button variant="link" asChild className="gap-1">
             <Link href="https://docs.better-i18n.com/frameworks/nextjs/api-reference">
-              Full API reference
+              {t("fullApiRef")}
               <ExternalLink className="size-3" />
             </Link>
           </Button>
@@ -248,9 +222,9 @@ function AboutContent({ locales }: { locales: string[] }) {
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50 dark:bg-gray-800/50">
-                <TableHead className="px-4">API</TableHead>
-                <TableHead className="px-4">Type</TableHead>
-                <TableHead className="px-4">Purpose</TableHead>
+                <TableHead className="px-4">{t("apiTable.api")}</TableHead>
+                <TableHead className="px-4">{t("apiTable.type")}</TableHead>
+                <TableHead className="px-4">{t("apiTable.purpose")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -267,7 +241,7 @@ function AboutContent({ locales }: { locales: string[] }) {
                     </Badge>
                   </TableCell>
                   <TableCell className="px-4 text-gray-600 dark:text-gray-400">
-                    {api.purpose}
+                    {t(api.purposeKey)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -281,7 +255,7 @@ function AboutContent({ locales }: { locales: string[] }) {
       {/* How It Works */}
       <section
         className="mt-20 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 px-8 py-10 dark:from-emerald-950/30 dark:to-teal-950/30"
-        aria-label="How It Works"
+        aria-label={t("howItWorks.title")}
       >
         <h2 className="text-2xl font-semibold">{t("howItWorks.title")}</h2>
         <p className="mt-4 max-w-2xl leading-relaxed text-gray-600 dark:text-gray-400">
@@ -291,7 +265,7 @@ function AboutContent({ locales }: { locales: string[] }) {
           <Button variant="link" asChild className="gap-1 px-0 text-emerald-700 dark:text-emerald-400">
             <Link href="https://docs.better-i18n.com/frameworks/nextjs">
               <BookOpen className="size-3" />
-              Read the full integration guide
+              {t("readGuide")}
               <ArrowRight className="size-3" />
             </Link>
           </Button>
@@ -299,7 +273,7 @@ function AboutContent({ locales }: { locales: string[] }) {
       </section>
 
       {/* Supported Locales */}
-      <section className="mt-20" aria-label="Supported Locales">
+      <section className="mt-20" aria-label={t("locales.title")}>
         <h2 className="text-2xl font-semibold">{t("locales.title")}</h2>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           {t("locales.description")}
@@ -315,27 +289,27 @@ function AboutContent({ locales }: { locales: string[] }) {
           ))}
         </div>
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          Manage locales from the{" "}
+          {t("manageLocales")}{" "}
           <Link
             href="https://dash.better-i18n.com"
             className="font-medium text-blue-600 underline decoration-blue-300 underline-offset-2 transition hover:text-blue-700 dark:text-blue-400 dark:decoration-blue-700 dark:hover:text-blue-300"
           >
-            better-i18n dashboard
+            {t("dashboardLink")}
           </Link>
           .
         </p>
       </section>
 
       {/* Bottom Navigation */}
-      <nav className="mt-20 flex items-center justify-center gap-6 border-t border-gray-200 pt-8 dark:border-gray-800" aria-label="Explore more">
+      <nav className="mt-20 flex items-center justify-center gap-6 border-t border-gray-200 pt-8 dark:border-gray-800" aria-label={t("aria.exploreMore")}>
         <Button variant="link" asChild>
           <Link href={`/${locale}`}>
-            &larr; Back to home
+            &larr; {t("backToHome")}
           </Link>
         </Button>
         <Button variant="link" asChild>
           <Link href={`/${locale}/features`}>
-            Explore all features
+            {t("exploreFeatures")}
             <ArrowRight className="size-3" />
           </Link>
         </Button>

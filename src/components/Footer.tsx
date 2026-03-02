@@ -84,7 +84,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 transition hover:text-gray-700 dark:hover:text-gray-200"
-                aria-label="GitHub"
+                aria-label={t("github")}
               >
                 <Github className="h-4 w-4" />
               </a>
@@ -92,7 +92,7 @@ export function Footer() {
           </div>
 
           {/* Product column */}
-          <FooterColumn title="Product">
+          <FooterColumn title={t("product")}>
             <FooterLink
               href="https://better-i18n.com"
               icon={<ExternalLink className="h-3.5 w-3.5" />}
@@ -103,18 +103,18 @@ export function Footer() {
               href="https://dash.better-i18n.com"
               icon={<ExternalLink className="h-3.5 w-3.5" />}
             >
-              Dashboard
+              {t("dashboard")}
             </FooterLink>
             <FooterLink
               href="https://better-i18n.com/#pricing"
               icon={<ExternalLink className="h-3.5 w-3.5" />}
             >
-              Pricing
+              {t("pricing")}
             </FooterLink>
           </FooterColumn>
 
           {/* Developers column */}
-          <FooterColumn title="Developers">
+          <FooterColumn title={t("developers")}>
             <FooterLink
               href="https://docs.better-i18n.com"
               icon={<BookOpen className="h-3.5 w-3.5" />}
@@ -125,35 +125,35 @@ export function Footer() {
               href="https://docs.better-i18n.com/frameworks/nextjs"
               icon={<BookOpen className="h-3.5 w-3.5" />}
             >
-              Next.js Guide
+              {t("nextjsGuide")}
             </FooterLink>
             <FooterLink
               href="https://docs.better-i18n.com/frameworks/nextjs/api-reference"
               icon={<BookOpen className="h-3.5 w-3.5" />}
             >
-              API Reference
+              {t("apiReference")}
             </FooterLink>
             <FooterLink
               href="https://github.com/better-i18n"
               icon={<Github className="h-3.5 w-3.5" />}
             >
-              GitHub
+              {t("github")}
             </FooterLink>
           </FooterColumn>
 
           {/* Resources column */}
-          <FooterColumn title="Resources">
+          <FooterColumn title={t("resources")}>
             <FooterLink
               href="https://better-i18n.com/blog"
               icon={<ExternalLink className="h-3.5 w-3.5" />}
             >
-              Blog
+              {t("blog")}
             </FooterLink>
             <FooterLink
               href="https://better-i18n.com/changelog"
               icon={<ExternalLink className="h-3.5 w-3.5" />}
             >
-              Changelog
+              {t("changelog")}
             </FooterLink>
           </FooterColumn>
         </div>
@@ -163,7 +163,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            &copy; 2025 better-i18n. All rights reserved.
+            {t("copyright")}
           </p>
           <div className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
             <Image
@@ -180,7 +180,7 @@ export function Footer() {
               height={14}
               className="hidden dark:block"
             />
-            Built with better-i18n
+            {t("builtWith")}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { getTranslations } from "next-intl/server";
 import { BetterI18nProvider } from "@better-i18n/next/client";
 import { i18n } from "../../../i18n.config";
 import { Header } from "@/components/Header";
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const { locale } = await params;
   const locales = await i18n.getLocales();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://nextjs-i18n-starter.vercel.app";
+  const t = await getTranslations({ locale, namespace: "site" });
 
   const languages: Record<string, string> = {};
   for (const loc of locales) {
@@ -36,17 +38,17 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   return {
     title: {
       template: "%s | better-i18n",
-      default: "Next.js i18n Starter | better-i18n",
+      default: t("meta.defaultTitle"),
     },
-    description: "A production-ready Next.js 15 starter with better-i18n for internationalization. Server-side rendering, instant locale switching, and CDN-powered translations.",
+    description: t("meta.description"),
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}`,
       languages,
     },
     openGraph: {
-      title: "Next.js i18n Starter | better-i18n",
-      description: "Production-ready internationalization for Next.js with CDN-powered translations.",
+      title: t("meta.defaultTitle"),
+      description: t("meta.description"),
       url: `${baseUrl}/${locale}`,
       siteName: "better-i18n",
       locale: toOgLocale(locale),
@@ -56,8 +58,8 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       card: "summary_large_image",
       site: "@betteri18n",
       creator: "@betteri18n",
-      title: "Next.js i18n Starter | better-i18n",
-      description: "Production-ready internationalization for Next.js with CDN-powered translations.",
+      title: t("meta.defaultTitle"),
+      description: t("meta.description"),
     },
     robots: {
       index: true,
