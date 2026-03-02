@@ -23,6 +23,12 @@ export function Header() {
               {t("home")}
             </Link>
             <Link
+              href={`/${locale}/features`}
+              className="text-sm text-gray-600 transition hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            >
+              {t("features")}
+            </Link>
+            <Link
               href={`/${locale}/about`}
               className="text-sm text-gray-600 transition hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
             >

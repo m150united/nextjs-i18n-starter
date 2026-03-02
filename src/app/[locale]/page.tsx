@@ -1,5 +1,37 @@
-import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { i18n } from "../../../i18n.config";
+
+interface HomePageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://nextjs-i18n-starter.vercel.app";
+
+  return {
+    title: "Next.js i18n Starter - Internationalization Made Easy",
+    description:
+      "Build multilingual Next.js applications with better-i18n. CDN-powered translations, server-side rendering, instant locale switching, and type-safe translation keys.",
+    openGraph: {
+      title: "Next.js i18n Starter - Internationalization Made Easy",
+      description:
+        "Build multilingual Next.js applications with better-i18n. CDN-powered translations, server-side rendering, instant locale switching, and type-safe translation keys.",
+      url: `${baseUrl}/${locale}`,
+      siteName: "better-i18n",
+      locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Next.js i18n Starter - Internationalization Made Easy",
+      description:
+        "Build multilingual Next.js applications with better-i18n. CDN-powered translations, server-side rendering, instant locale switching, and type-safe translation keys.",
+    },
+  };
+}
 
 export default async function HomePage() {
   const locales = await i18n.getLocales();
@@ -9,6 +41,7 @@ export default async function HomePage() {
 
 function HomeContent({ locales }: { locales: string[] }) {
   const t = useTranslations("home");
+  const locale = useLocale();
 
   const features = [
     {
@@ -38,8 +71,8 @@ function HomeContent({ locales }: { locales: string[] }) {
   ];
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-20">
-      <div className="text-center">
+    <article className="mx-auto max-w-4xl px-6 py-20">
+      <section className="text-center" aria-label="Introduction">
         <span className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
           {t("badge")}
         </span>
@@ -51,12 +84,12 @@ function HomeContent({ locales }: { locales: string[] }) {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-          {locales.map((locale) => (
+          {locales.map((loc) => (
             <span
-              key={locale}
+              key={loc}
               className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-mono text-gray-600 dark:bg-gray-800 dark:text-gray-400"
             >
-              {locale}
+              {loc}
             </span>
           ))}
         </div>
@@ -79,28 +112,41 @@ function HomeContent({ locales }: { locales: string[] }) {
             {t("cta.dashboard")}
           </a>
         </div>
-      </div>
 
-      <section className="mt-24 grid gap-8 sm:grid-cols-3">
-        {features.map((feature) => (
-          <div
-            key={feature.key}
-            className="rounded-xl border border-gray-200 p-6 transition hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700"
-          >
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-              {feature.icon}
-            </div>
-            <h3 className="text-lg font-semibold">
-              {t(`features.${feature.key}.title`)}
-            </h3>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              {t(`features.${feature.key}.description`)}
-            </p>
-          </div>
-        ))}
+        <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
+          <Link href={`/${locale}/features`} className="underline hover:text-gray-700 dark:hover:text-gray-200">
+            Explore all features
+          </Link>
+          {" · "}
+          <Link href={`/${locale}/about`} className="underline hover:text-gray-700 dark:hover:text-gray-200">
+            How it works
+          </Link>
+        </div>
       </section>
 
-      <section className="mt-20 rounded-xl border border-gray-200 p-8 dark:border-gray-800">
+      <section className="mt-24" aria-label="Features">
+        <h2 className="mb-8 text-center text-2xl font-bold">Key Features</h2>
+        <div className="grid gap-8 sm:grid-cols-3">
+          {features.map((feature) => (
+            <div
+              key={feature.key}
+              className="rounded-xl border border-gray-200 p-6 transition hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700"
+            >
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                {feature.icon}
+              </div>
+              <h3 className="text-lg font-semibold">
+                {t(`features.${feature.key}.title`)}
+              </h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                {t(`features.${feature.key}.description`)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-20 rounded-xl border border-gray-200 p-8 dark:border-gray-800" aria-label="Quick Start">
         <h2 className="text-lg font-semibold">{t("quickstart.title")}</h2>
         <div className="mt-4 overflow-x-auto rounded-lg bg-gray-950 p-4 text-sm text-gray-100">
           <pre>
@@ -116,6 +162,7 @@ export const i18n = createI18n({
           </pre>
         </div>
       </section>
-    </div>
+
+    </article>
   );
 }
