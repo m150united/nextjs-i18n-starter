@@ -3,6 +3,10 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { i18n } from "../../../i18n.config";
 import { toOgLocale } from "@/i18n/locale-map";
+import { Server, Code, Languages, ArrowRight, BookOpen, LayoutDashboard, Github, Zap, Globe, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
@@ -49,27 +53,15 @@ function HomeContent({ locales }: { locales: string[] }) {
   const features = [
     {
       key: "ssr" as const,
-      icon: (
-        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5a3 3 0 1 0 0-6m-16.5-3a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3m-19.5 0a4.5 4.5 0 0 1 .9-2.7L5.737 5.1a3.375 3.375 0 0 1 2.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 0 1 .9 2.7m0 0a3 3 0 0 1-3 3m0 3h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Zm-3 6h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Z" />
-        </svg>
-      ),
+      icon: <Server className="h-6 w-6" />,
     },
     {
       key: "typesafe" as const,
-      icon: (
-        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
-        </svg>
-      ),
+      icon: <Code className="h-6 w-6" />,
     },
     {
       key: "switcher" as const,
-      icon: (
-        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
-        </svg>
-      ),
+      icon: <Languages className="h-6 w-6" />,
     },
   ];
 
@@ -78,21 +70,25 @@ function HomeContent({ locales }: { locales: string[] }) {
       title: "CDN-Powered Delivery",
       description: "Translations served from the edge for instant load times worldwide.",
       href: "https://docs.better-i18n.com",
+      icon: <Zap className="h-5 w-5" />,
     },
     {
       title: "Framework Integrations",
       description: "First-class support for Next.js, React, and more with dedicated SDKs.",
       href: "https://docs.better-i18n.com/frameworks/nextjs",
+      icon: <Globe className="h-5 w-5" />,
     },
     {
       title: "Visual Dashboard",
       description: "Manage translations, invite collaborators, and track progress in one place.",
       href: "https://dash.better-i18n.com",
+      icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
       title: "Open Source",
       description: "Community-driven development with full transparency on GitHub.",
       href: "https://github.com/better-i18n",
+      icon: <Github className="h-5 w-5" />,
     },
   ];
 
@@ -104,52 +100,54 @@ function HomeContent({ locales }: { locales: string[] }) {
         aria-label="Introduction"
       >
         <div className="mx-auto max-w-4xl px-6 pb-20 pt-24 text-center">
-          <span className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+          <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm">
+            <Sparkles className="h-3.5 w-3.5" />
             {t("badge")}
-          </span>
+          </Badge>
           <h1 className="mt-6 text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
             {t("title")}
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400 sm:text-xl">
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
             {t("description")}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             {locales.map((loc) => (
-              <span
-                key={loc}
-                className="rounded-md bg-white/80 px-2.5 py-1 text-xs font-mono text-gray-600 shadow-sm ring-1 ring-gray-200 dark:bg-gray-800/80 dark:text-gray-400 dark:ring-gray-700"
-              >
+              <Badge key={loc} variant="outline" className="font-mono text-xs">
                 {loc}
-              </span>
+              </Badge>
             ))}
           </div>
 
           <div className="mt-12 flex items-center justify-center gap-4">
-            <a
-              href="https://docs.better-i18n.com/frameworks/nextjs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/30"
-            >
-              {t("cta.docs")}
-            </a>
-            <a
-              href="https://dash.better-i18n.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl border border-gray-300 bg-white px-8 py-3.5 text-sm font-semibold transition hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800"
-            >
-              {t("cta.dashboard")}
-            </a>
+            <Button asChild size="lg">
+              <a
+                href="https://docs.better-i18n.com/frameworks/nextjs"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BookOpen className="h-4 w-4" />
+                {t("cta.docs")}
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <a
+                href="https://dash.better-i18n.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                {t("cta.dashboard")}
+              </a>
+            </Button>
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-            <Link href={`/${locale}/features`} className="underline decoration-gray-300 underline-offset-4 transition hover:text-gray-700 hover:decoration-gray-500 dark:decoration-gray-600 dark:hover:text-gray-200">
+          <div className="mt-8 flex items-center justify-center gap-3 text-sm text-muted-foreground">
+            <Link href={`/${locale}/features`} className="underline decoration-gray-300 underline-offset-4 transition hover:text-foreground hover:decoration-gray-500 dark:decoration-gray-600">
               Explore all features
             </Link>
             <span className="text-gray-300 dark:text-gray-600">|</span>
-            <Link href={`/${locale}/about`} className="underline decoration-gray-300 underline-offset-4 transition hover:text-gray-700 hover:decoration-gray-500 dark:decoration-gray-600 dark:hover:text-gray-200">
+            <Link href={`/${locale}/about`} className="underline decoration-gray-300 underline-offset-4 transition hover:text-foreground hover:decoration-gray-500 dark:decoration-gray-600">
               How it works
             </Link>
           </div>
@@ -161,20 +159,19 @@ function HomeContent({ locales }: { locales: string[] }) {
         <h2 className="mb-12 text-center text-3xl font-bold tracking-tight">Key Features</h2>
         <div className="grid gap-8 sm:grid-cols-3">
           {features.map((feature) => (
-            <div
-              key={feature.key}
-              className="group rounded-2xl border border-gray-200 bg-white p-6 transition-shadow hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/50"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-md shadow-blue-500/20">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold">
-                {t(`features.${feature.key}.title`)}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                {t(`features.${feature.key}.description`)}
-              </p>
-            </div>
+            <Card key={feature.key} className="group transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-md shadow-blue-500/20">
+                  {feature.icon}
+                </div>
+                <CardTitle className="text-lg">
+                  {t(`features.${feature.key}.title`)}
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  {t(`features.${feature.key}.description`)}
+                </CardDescription>
+              </CardHeader>
+            </Card>
           ))}
         </div>
       </section>
@@ -211,26 +208,28 @@ export const i18n = createI18n({
         <h2 className="mb-12 text-center text-3xl font-bold tracking-tight">Why better-i18n?</h2>
         <div className="grid gap-6 sm:grid-cols-2">
           {whyReasons.map((reason) => (
-            <a
-              key={reason.title}
-              href={reason.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:border-blue-200 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-blue-800"
-            >
-              <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
-                {reason.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                {reason.description}
-              </p>
-              <span className="mt-3 inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
-                Learn more
-                <svg className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </span>
-            </a>
+            <Card key={reason.title} className="group transition-all hover:border-blue-200 hover:shadow-lg dark:hover:border-blue-800">
+              <a
+                href={reason.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col gap-4 p-6"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                  {reason.icon}
+                </div>
+                <CardTitle className="group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  {reason.title}
+                </CardTitle>
+                <CardDescription className="leading-relaxed">
+                  {reason.description}
+                </CardDescription>
+                <span className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
+                  Learn more
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </a>
+            </Card>
           ))}
         </div>
       </section>
@@ -245,30 +244,36 @@ export const i18n = createI18n({
             Get up and running in minutes with better-i18n. Free to start, scales with your project.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="https://docs.better-i18n.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-blue-700 shadow-lg transition hover:bg-blue-50 hover:shadow-xl"
-            >
-              Read the Docs
-            </a>
-            <a
-              href="https://dash.better-i18n.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl border border-white/30 px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              Open Dashboard
-            </a>
-            <a
-              href="https://github.com/better-i18n"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-xl border border-white/30 px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              View on GitHub
-            </a>
+            <Button asChild size="lg" className="bg-white text-blue-700 shadow-lg hover:bg-blue-50 hover:shadow-xl">
+              <a
+                href="https://docs.better-i18n.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BookOpen className="h-4 w-4" />
+                Read the Docs
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white">
+              <a
+                href="https://dash.better-i18n.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Open Dashboard
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white">
+              <a
+                href="https://github.com/better-i18n"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="h-4 w-4" />
+                View on GitHub
+              </a>
+            </Button>
           </div>
         </div>
       </section>

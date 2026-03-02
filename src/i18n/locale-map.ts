@@ -7,6 +7,17 @@ const LOCALE_TO_OG: Record<string, string> = {
   de: "de_DE",
   es: "es_ES",
   tr: "tr_TR",
+  fr: "fr_FR",
+  pt: "pt_BR",
+  ja: "ja_JP",
+  ko: "ko_KR",
+  "zh-hans": "zh_CN",
+  ar: "ar_SA",
+  ru: "ru_RU",
+  it: "it_IT",
+  nl: "nl_NL",
+  hi: "hi_IN",
+  pl: "pl_PL",
 };
 
 export function toOgLocale(locale: string): string {

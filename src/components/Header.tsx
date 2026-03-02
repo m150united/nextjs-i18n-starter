@@ -1,15 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [
     { href: `/${locale}`, label: t("home") },
@@ -64,8 +68,44 @@ export function Header() {
             ))}
           </nav>
         </div>
-        <LanguageSwitcher />
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <LanguageSwitcher />
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="sm:hidden"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
+      {mobileOpen && (
+        <div className="border-t border-gray-200 px-6 py-4 sm:hidden dark:border-gray-800">
+          <nav className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`text-sm transition hover:underline hover:underline-offset-4 ${
+                  isActive(link.href)
+                    ? "font-medium text-gray-900 dark:text-gray-100"
+                    : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-4 border-t border-gray-200 pt-4 dark:border-gray-800">
+            <LanguageSwitcher />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

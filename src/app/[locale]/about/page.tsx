@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
+import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
+import { Upload, Globe, Server, Monitor, ArrowRight, ExternalLink, BookOpen, Github } from "lucide-react";
 import { i18n } from "../../../../i18n.config";
 import { toOgLocale } from "@/i18n/locale-map";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+import { Separator } from "@/components/ui/separator";
 
 interface AboutPageProps {
   params: Promise<{ locale: string }>;
@@ -55,30 +69,30 @@ function AboutContent({ locales }: { locales: string[] }) {
     { name: "TypeScript 5", detail: "Full type safety", color: "bg-blue-700 text-white" },
   ];
 
-  const cdnSteps = [
+  const cdnSteps: { title: string; description: string; color: string; icon: LucideIcon }[] = [
     {
       title: "Dashboard publish",
       description: "Translations are published from the better-i18n dashboard to Cloudflare R2 storage.",
       color: "from-violet-500 to-purple-600",
-      icon: "1",
+      icon: Upload,
     },
     {
       title: "Edge CDN delivery",
       description: "Translation bundles are served from global edge locations with sub-50ms load times.",
       color: "from-blue-500 to-cyan-500",
-      icon: "2",
+      icon: Globe,
     },
     {
       title: "Server-side rendering",
       description: "Next.js server components fetch translations at request time via getMessages() for SEO-friendly HTML.",
       color: "from-emerald-500 to-teal-500",
-      icon: "3",
+      icon: Server,
     },
     {
       title: "Client hydration",
       description: "BetterI18nProvider hydrates translations client-side with zero layout shift. useSetLocale() enables instant switching.",
       color: "from-amber-500 to-orange-500",
-      icon: "4",
+      icon: Monitor,
     },
   ];
 
@@ -93,10 +107,10 @@ function AboutContent({ locales }: { locales: string[] }) {
     { name: "useManifestLanguages()", type: "Client", purpose: "Dynamic language discovery from CDN" },
   ];
 
-  const typeBadgeClass: Record<string, string> = {
-    Config: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-    Server: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-    Client: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+  const typeBadgeVariant: Record<string, "default" | "secondary" | "outline"> = {
+    Config: "outline",
+    Server: "default",
+    Client: "secondary",
   };
 
   return (
@@ -120,19 +134,19 @@ function AboutContent({ locales }: { locales: string[] }) {
             {t("description")}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="https://docs.better-i18n.com/frameworks/nextjs"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-            >
-              Read the docs
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
-            <Link
-              href="https://github.com/better-i18n"
-              className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-            >
-              View on GitHub
-            </Link>
+            <Button asChild>
+              <Link href="https://docs.better-i18n.com/frameworks/nextjs">
+                <BookOpen />
+                Read the docs
+                <ArrowRight />
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="https://github.com/better-i18n">
+                <Github />
+                View on GitHub
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -142,11 +156,8 @@ function AboutContent({ locales }: { locales: string[] }) {
         <h2 className="text-2xl font-semibold">{t("stack.title")}</h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {stack.map((item) => (
-            <div
-              key={item.name}
-              className="group relative overflow-hidden rounded-xl border border-gray-200 p-4 transition hover:shadow-md dark:border-gray-800 dark:hover:border-gray-700"
-            >
-              <div className="flex items-start gap-3">
+            <Card key={item.name} className="group transition hover:shadow-md dark:hover:border-gray-700">
+              <CardContent className="flex items-start gap-3">
                 <span className={`inline-flex shrink-0 items-center rounded-md px-2 py-1 text-xs font-bold ${item.color}`}>
                   {item.name.split(" ")[0]}
                 </span>
@@ -158,8 +169,8 @@ function AboutContent({ locales }: { locales: string[] }) {
                     {item.detail}
                   </p>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -171,12 +182,12 @@ function AboutContent({ locales }: { locales: string[] }) {
       >
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">CDN Translation Architecture</h2>
-          <Link
-            href="https://docs.better-i18n.com/frameworks/nextjs"
-            className="text-sm font-medium text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-          >
-            Learn more &rarr;
-          </Link>
+          <Button variant="link" asChild className="gap-1">
+            <Link href="https://docs.better-i18n.com/frameworks/nextjs">
+              Learn more
+              <ArrowRight className="size-3" />
+            </Link>
+          </Button>
         </div>
         <p className="mt-4 max-w-2xl text-gray-600 dark:text-gray-400">
           better-i18n uses a CDN-first architecture. When you publish translations in the{" "}
@@ -188,28 +199,33 @@ function AboutContent({ locales }: { locales: string[] }) {
 
         {/* Visual Flow Diagram */}
         <div className="mt-8 flex flex-col gap-0">
-          {cdnSteps.map((step, index) => (
-            <div key={step.title} className="flex items-stretch gap-4">
-              {/* Vertical line + node */}
-              <div className="flex flex-col items-center">
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${step.color} text-sm font-bold text-white shadow-lg`}>
-                  {step.icon}
+          {cdnSteps.map((step, index) => {
+            const IconComponent = step.icon;
+            return (
+              <div key={step.title} className="flex items-stretch gap-4">
+                {/* Vertical line + node */}
+                <div className="flex flex-col items-center">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${step.color} text-white shadow-lg`}>
+                    <IconComponent className="size-5" />
+                  </div>
+                  {index < cdnSteps.length - 1 && (
+                    <div className="w-0.5 grow bg-gradient-to-b from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
+                  )}
                 </div>
-                {index < cdnSteps.length - 1 && (
-                  <div className="w-0.5 grow bg-gradient-to-b from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
-                )}
+                {/* Content card */}
+                <Card className="mb-6 flex-1 shadow-sm transition hover:shadow-md">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                      {step.title}
+                    </h3>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                      {step.description}
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
-              {/* Content card */}
-              <div className="mb-6 flex-1 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-gray-800/80">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                  {step.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                  {step.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
@@ -221,49 +237,46 @@ function AboutContent({ locales }: { locales: string[] }) {
       <section className="mt-20" aria-label="SDK APIs">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">SDK APIs Used in This Starter</h2>
-          <Link
-            href="https://docs.better-i18n.com/frameworks/nextjs/api-reference"
-            className="text-sm font-medium text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-          >
-            Full API reference &rarr;
-          </Link>
+          <Button variant="link" asChild className="gap-1">
+            <Link href="https://docs.better-i18n.com/frameworks/nextjs/api-reference">
+              Full API reference
+              <ExternalLink className="size-3" />
+            </Link>
+          </Button>
         </div>
-        <div className="mt-6 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
-                <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">API</th>
-                <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">Type</th>
-                <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              {apis.map((api, index) => (
-                <tr
-                  key={api.name}
-                  className={`border-b border-gray-100 transition hover:bg-blue-50/50 dark:border-gray-800 dark:hover:bg-blue-900/10 ${
-                    index % 2 === 0 ? "bg-white dark:bg-transparent" : "bg-gray-50/50 dark:bg-gray-800/20"
-                  }`}
-                >
-                  <td className="px-4 py-3">
+        <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50 dark:bg-gray-800/50">
+                <TableHead className="px-4">API</TableHead>
+                <TableHead className="px-4">Type</TableHead>
+                <TableHead className="px-4">Purpose</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {apis.map((api) => (
+                <TableRow key={api.name}>
+                  <TableCell className="px-4">
                     <code className="rounded bg-blue-50 px-1.5 py-0.5 font-mono text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                       {api.name}
                     </code>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${typeBadgeClass[api.type] ?? ""}`}>
+                  </TableCell>
+                  <TableCell className="px-4">
+                    <Badge variant={typeBadgeVariant[api.type] ?? "default"}>
                       {api.type}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="px-4 text-gray-600 dark:text-gray-400">
                     {api.purpose}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       </section>
+
+      <Separator className="mt-20" />
 
       {/* How It Works */}
       <section
@@ -275,13 +288,13 @@ function AboutContent({ locales }: { locales: string[] }) {
           {t("howItWorks.description")}
         </p>
         <div className="mt-6">
-          <Link
-            href="https://docs.better-i18n.com/frameworks/nextjs"
-            className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
-          >
-            Read the full integration guide
-            <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <Button variant="link" asChild className="gap-1 px-0 text-emerald-700 dark:text-emerald-400">
+            <Link href="https://docs.better-i18n.com/frameworks/nextjs">
+              <BookOpen className="size-3" />
+              Read the full integration guide
+              <ArrowRight className="size-3" />
+            </Link>
+          </Button>
         </div>
       </section>
 
@@ -293,16 +306,12 @@ function AboutContent({ locales }: { locales: string[] }) {
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
           {locales.map((loc) => (
-            <span
+            <Badge
               key={loc}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
-                loc === locale
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-              }`}
+              variant={loc === locale ? "default" : "secondary"}
             >
               {loc}
-            </span>
+            </Badge>
           ))}
         </div>
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
@@ -319,18 +328,17 @@ function AboutContent({ locales }: { locales: string[] }) {
 
       {/* Bottom Navigation */}
       <nav className="mt-20 flex items-center justify-center gap-6 border-t border-gray-200 pt-8 dark:border-gray-800" aria-label="Explore more">
-        <Link
-          href={`/${locale}`}
-          className="text-sm font-medium text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          &larr; Back to home
-        </Link>
-        <Link
-          href={`/${locale}/features`}
-          className="text-sm font-medium text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          Explore all features &rarr;
-        </Link>
+        <Button variant="link" asChild>
+          <Link href={`/${locale}`}>
+            &larr; Back to home
+          </Link>
+        </Button>
+        <Button variant="link" asChild>
+          <Link href={`/${locale}/features`}>
+            Explore all features
+            <ArrowRight className="size-3" />
+          </Link>
+        </Button>
       </nav>
     </article>
   );
