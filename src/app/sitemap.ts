@@ -15,9 +15,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const page of pages) {
       entries.push({
         url: `${BASE_URL}/${locale}${page}`,
-        lastModified: new Date(),
+        lastModified: "2026-03-02",
         changeFrequency: page === "" ? "weekly" : "monthly",
         priority: page === "" ? 1.0 : 0.8,
+        alternates: {
+          languages: Object.fromEntries(
+            locales.map((l) => [l, `${BASE_URL}/${l}${page}`])
+          ),
+        },
       });
     }
   }

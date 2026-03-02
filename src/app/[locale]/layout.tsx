@@ -6,11 +6,17 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { HreflangTags } from "@/components/HreflangTags";
 import { WebsiteSchema } from "@/components/WebsiteSchema";
+import { toOgLocale } from "@/i18n/locale-map";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
+export async function generateStaticParams() {
+  const locales = await i18n.getLocales();
+  return locales.map((locale) => ({ locale }));
+}
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -43,17 +49,28 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       description: "Production-ready internationalization for Next.js with CDN-powered translations.",
       url: `${baseUrl}/${locale}`,
       siteName: "better-i18n",
-      locale: locale,
+      locale: toOgLocale(locale),
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
+      site: "@betteri18n",
+      creator: "@betteri18n",
       title: "Next.js i18n Starter | better-i18n",
       description: "Production-ready internationalization for Next.js with CDN-powered translations.",
     },
     robots: {
       index: true,
       follow: true,
+    },
+    authors: [{ name: "better-i18n", url: "https://better-i18n.com" }],
+    creator: "better-i18n",
+    publisher: "better-i18n",
+    other: {
+      "theme-color": "#2563eb",
+    },
+    icons: {
+      icon: "/logo.png",
     },
   };
 }
@@ -68,6 +85,8 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
+        <meta name="google-site-verification" content="T_on779LYxxf3cJpcCkvJ1SH379abE2W_V9btGY9cVA" />
+        <link rel="preconnect" href="https://cdn.better-i18n.com" />
         <HreflangTags locale={locale} path="" />
         <WebsiteSchema locale={locale} />
       </head>
