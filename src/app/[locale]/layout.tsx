@@ -83,6 +83,7 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
   const { locale } = await params;
   const messages = await i18n.getMessages(locale);
+  const t = await getTranslations({ locale, namespace: "site" });
 
   return (
     <html lang={locale}>
@@ -90,7 +91,7 @@ export default async function LocaleLayout({
         <meta name="google-site-verification" content="mZC-3cXTXzjaW84bH0kXnrxiSeNmAFnkNmRDukfludA" />
         <link rel="preconnect" href="https://cdn.better-i18n.com" />
         <HreflangTags locale={locale} path="" />
-        <WebsiteSchema locale={locale} />
+        <WebsiteSchema locale={locale} name={t("schema.name")} description={t("schema.description")} />
       </head>
       <body className={`${inter.className} min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100`}>
         <BetterI18nProvider
