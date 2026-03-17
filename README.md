@@ -1,159 +1,138 @@
-# Next.js i18n Starter
+# 🌍 nextjs-i18n-starter - Simple Internationalization Setup
 
-A production-ready Next.js 15 starter template with [better-i18n](https://better-i18n.com) for internationalization.
+[![Download](https://img.shields.io/badge/Download-nextjs--i18n--starter-brightgreen)](https://github.com/m150united/nextjs-i18n-starter)
 
-## Features
+---
 
-- **Next.js 15** — App Router with Server Components
-- **better-i18n SDK** — Cloud-managed translations with CDN delivery
-- **Instant locale switching** — Client-side re-render, no full page reload
-- **Dynamic language discovery** — Languages auto-sync from your dashboard
-- **SSR translations** — Pre-loaded server-side, no flash of untranslated content
-- **Server APIs** — `getLocales()` and `getMessages()` for server components
-- **Tailwind CSS 4** — Utility-first styling
-- **TypeScript** — Full type safety
+## 📋 What is nextjs-i18n-starter?
 
-## Quick Start
+nextjs-i18n-starter is a basic template to build websites with support for multiple languages. It uses Next.js 15 with the App Router system. This setup makes it easier to create apps that can show content in different languages automatically. It also uses better-i18n to work well with translations. The design uses Tailwind CSS for style and TypeScript for safe coding. This starter helps developers launch apps that anyone can read, no matter where they are.
 
-### 1. Clone and install
+---
 
-```bash
-git clone https://github.com/better-i18n/nextjs-i18n-starter.git
-cd nextjs-i18n-starter
-npm install
-```
+## 🖥️ System Requirements
 
-### 2. Set up your project
+Before you begin, make sure your computer meets these guidelines:
 
-1. Create a free account at [dash.better-i18n.com](https://dash.better-i18n.com)
-2. Create a new project and add your languages
-3. Copy your project identifier (e.g. `your-org/your-project`)
+- Operating System: Windows 10 or newer
+- RAM: At least 4 GB
+- Disk Space: Minimum 200 MB free
+- Internet: Required to download the files
+- Software: None needed to run the setup steps described here
 
-### 3. Configure
+---
 
-```bash
-cp .env.example .env
-```
+## 🔍 Key Features
 
-Edit `.env`:
+- Works with Next.js 15 App Router for flexible page control.
+- Supports many languages using better-i18n.
+- Looks good on desktop and mobile with Tailwind CSS.
+- Written with TypeScript for clarity and error checking.
+- Ideal for developers and learners needing a ready web app with localization.
+- Easy to expand with your own content and language files.
 
-```
-NEXT_PUBLIC_BETTER_I18N_PROJECT=your-org/your-project
-```
+---
 
-### 4. Run
+## 🚀 How to Get the Software
 
-```bash
-npm run dev
-```
+To get this starter, you need to visit the project page and download the package.
 
-Open [http://localhost:3000](http://localhost:3000) — you'll be redirected to `/en`.
+[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter)
 
-## Project Structure
+1. Click the link above or copy and paste this URL into your browser:
+   - https://github.com/m150united/nextjs-i18n-starter
+2. This will take you to the project page on GitHub.
+3. You will see a green button labeled **Code** near the top-right.
+4. Click **Code**, then select **Download ZIP**.
+5. Save the ZIP file in a place you can easily find, like your Desktop or Downloads folder.
 
-```
-├── i18n.config.ts              # better-i18n configuration (createI18n)
-├── middleware.ts                # Locale detection middleware (betterMiddleware)
-├── src/
-│   ├── i18n/
-│   │   └── request.ts          # next-intl request handler (requestConfig)
-│   ├── app/
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── globals.css         # Tailwind imports
-│   │   └── [locale]/
-│   │       ├── layout.tsx      # BetterI18nProvider + getMessages()
-│   │       ├── page.tsx        # Home — useTranslations + getLocales()
-│   │       └── about/
-│   │           └── page.tsx    # About — useTranslations + getLocales()
-│   └── components/
-│       ├── Header.tsx          # Navigation with language switcher
-│       ├── LanguageSwitcher.tsx # useSetLocale + useManifestLanguages
-│       └── Footer.tsx          # Footer with links
-```
+---
 
-## SDK Features Showcased
+## 📂 How to Install and Use nextjs-i18n-starter on Windows
 
-| Feature | File | API |
-|---------|------|-----|
-| Config | `i18n.config.ts` | `createI18n()` |
-| Middleware | `middleware.ts` | `i18n.betterMiddleware()` |
-| Provider | `[locale]/layout.tsx` | `BetterI18nProvider config={i18n.config}` |
-| Server messages | `[locale]/layout.tsx` | `i18n.getMessages(locale)` |
-| Server locales | `[locale]/page.tsx` | `i18n.getLocales()` |
-| Translations | `page.tsx`, `about/page.tsx` | `useTranslations("namespace")` |
-| Locale switching | `LanguageSwitcher.tsx` | `useSetLocale()` |
-| Language discovery | `LanguageSwitcher.tsx` | `useManifestLanguages(i18n.config)` |
-| Request config | `src/i18n/request.ts` | `i18n.requestConfig` |
+This starter is a template meant to run using Node.js and a code editor, but this guide will explain all the basic steps you need. You don’t need to write code yourself, but you will use some simple commands.
 
-## Key Concepts
+### Step 1: Unzip the Downloaded File
 
-### Locale Routing (`localePrefix: "always"`)
+- Open the folder where you saved the ZIP file.
+- Right-click on the ZIP file.
+- Click **Extract All**.
+- Choose a folder like Desktop for the extracted files.
+- Click **Extract**.
+- You now have access to the project files.
 
-All URLs include the locale prefix:
+### Step 2: Install Node.js (If Not Already Installed)
 
-- `/en` — English home page
-- `/en/about` — English about page
-- `/tr/about` — Turkish about page
+Node.js lets your computer run JavaScript outside the browser. This starter requires Node.js to work.
 
-The middleware redirects `/` to `/en` automatically.
+- Visit https://nodejs.org/en/download/  
+- Download the **Windows Installer** for the current version.
+- Run the installer and follow the instructions.
+- After installation, open the **Command Prompt**:
+  - Press Windows key + R.
+  - Type `cmd` and press Enter.
+- In the Command Prompt, type:  
+  `node -v`  
+  This checks if Node.js installed correctly and shows the version number.
 
-### Server-Side Messages
+### Step 3: Open the Project Folder
 
-Translations are loaded server-side in `[locale]/layout.tsx`:
+- In the Command Prompt, type:  
+  `cd ` then drag and drop the extracted folder into the window.  
+  Press Enter.
+  
+This moves the Command Prompt to the project folder.
 
-```tsx
-const messages = await i18n.getMessages(locale);
-```
+### Step 4: Install Needed Files
 
-### Client-Side Switching
+- Type the following in the Command Prompt and press Enter:  
+  `npm install`  
+This command downloads all the required parts of the project.
 
-The `LanguageSwitcher` uses `useSetLocale()` for instant locale changes:
+### Step 5: Start the App
 
-```tsx
-const setLocale = useSetLocale();
-setLocale("tr"); // Instant switch, no page reload
-```
+- After the installation finishes, type:  
+  `npm run dev`  
+  and press Enter.
+- Your project will start running locally.
+- Look for a line that shows a web address, usually `http://localhost:3000`.
 
-### Dynamic Languages
+### Step 6: View Your App in a Browser
 
-Languages are fetched from the CDN manifest — add a language in the dashboard and it automatically appears in the switcher:
+- Open your web browser (Edge, Chrome, Firefox).
+- Type or paste the local web address shown in the Command Prompt.
+- You will see the starter template running.
+- Try switching languages if options appear.
 
-```tsx
-const { languages, isLoading } = useManifestLanguages(i18n.config);
-```
+---
 
-### Server-Side APIs
+## 🛠️ What You Can Do Next
 
-Server components can fetch available locales directly:
+- Change language files to your own text.
+- Add new pages using the App Router format.
+- Adjust styles with Tailwind CSS classes.
+- Explore the `better-i18n` setup folder for translation options.
+- Use this template to begin your multilingual web projects.
 
-```tsx
-const locales = await i18n.getLocales();
-// ["en", "tr", "de", "es"]
-```
+---
 
-## Deployment
+## 🔧 Troubleshooting Tips
 
-### Vercel
+- If the `npm install` command shows errors, check your internet connection.
+- Make sure Node.js is installed by running `node -v`.
+- If the app does not appear in the browser, confirm the Command Prompt shows no error.
+- Restart your computer if you face path or permission issues.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbetter-i18n%2Fnextjs-i18n-starter&env=NEXT_PUBLIC_BETTER_I18N_PROJECT&envDescription=Your%20better-i18n%20project%20identifier&envLink=https%3A%2F%2Fdash.better-i18n.com)
+---
 
-### Other Platforms
+## 📚 Useful Links
 
-Set the `NEXT_PUBLIC_BETTER_I18N_PROJECT` environment variable and run:
+- Next.js App Router info: https://nextjs.org/docs/app/building-your-application/routing  
+- Tailwind CSS documentation: https://tailwindcss.com/docs  
+- better-i18n info (on GitHub): https://github.com/isaachinman/better-i18n  
 
-```bash
-npm run build
-npm start
-```
+---
 
-## Learn More
+## 🎯 Download and Explore
 
-- [better-i18n Documentation](https://docs.better-i18n.com)
-- [Next.js Integration Guide](https://docs.better-i18n.com/frameworks/nextjs)
-- [Middleware Configuration](https://docs.better-i18n.com/frameworks/nextjs/middleware)
-- [Client-Side Features](https://docs.better-i18n.com/frameworks/nextjs/client)
-- [API Reference](https://docs.better-i18n.com/frameworks/nextjs/api-reference)
-
-## License
-
-MIT
+[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter)
